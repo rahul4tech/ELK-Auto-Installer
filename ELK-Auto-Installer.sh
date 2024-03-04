@@ -49,11 +49,6 @@ check_os() {
 # Function to install Elasticsearch
 install_elasticsearch() {
 
-    # remove old token and elastic_superuser_password kibana_enrollment_token.txt reset-superuser-password.exp
-    rm -f kibana_enrollment_token.txt
-    rm -f elastic_superuser_password
-    rm -f reset-superuser-password.exp
-
     echo "Installing Elasticsearch..."
     if [ "$PACKAGE_MANAGER" = "apt" ]; then
         wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
@@ -156,6 +151,12 @@ start_services() {
 # Function to remove Elasticsearch and purge related files
 remove_elasticsearch() {
     echo "Removing Elasticsearch and purging related files..."
+
+    # remove old token and elastic_superuser_password kibana_enrollment_token.txt reset-superuser-password.exp
+    rm -f kibana_enrollment_token.txt
+    rm -f elastic_superuser_password
+    rm -f reset-superuser-password.exp
+
     sudo systemctl stop elasticsearch.service
     sudo systemctl disable elasticsearch.service
     if [ "$PACKAGE_MANAGER" = "apt" ]; then
