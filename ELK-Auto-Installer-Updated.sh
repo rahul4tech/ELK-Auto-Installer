@@ -67,26 +67,11 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
         sudo yum install elasticsearch -y
     fi
 
-    # Configure Elasticsearch for network access and security
-    sudo sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
-    sudo sed -i 's/#http.port: 9200/http.port: 9200/' /etc/elasticsearch/elasticsearch.yml
-    echo "xpack.security.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
-    echo "xpack.security.transport.ssl.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
-
     # Configure Elasticsearch to start on boot
     sudo systemctl daemon-reload
     sudo systemctl enable elasticsearch.service
 
     echo "Elasticsearch installed."
-}
-
-# Function to set up passwords and generate enrollment token for Elasticsearch
-setup_elasticsearch_security() {
-    echo "Setting up passwords for built-in Elasticsearch users..."
-    sudo /usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
-    echo "Generating an enrollment token for Kibana..."
-    sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana > kibana_enrollment_token.txt
-    echo "Enrollment token saved to kibana_enrollment_token.txt"
 }
 
 # Function to install Kibana
@@ -97,8 +82,6 @@ install_kibana() {
     elif [ "$PACKAGE_MANAGER" = "yum" ]; then
         sudo yum install kibana -y
     fi
-
-    sudo sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
 
     # Configure Kibana to start on boot
     sudo systemctl daemon-reload
@@ -201,7 +184,6 @@ case $choice in
         ;;
     2)
         install_elasticsearch
-        setup_elasticsearch_security
         sudo systemctl start elasticsearch.service
         ;;
     3)
@@ -231,3 +213,14 @@ case $choice in
 esac
 
 echo "Process completed."
+
+# Set up passwords for built-in users
+echo "Setting up passwords for built-in Elasticsearch users. You will be prompted to enter passwords."
+sudo /usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
+
+# Generate an enrollment token for Kibana
+echo "Generating an enrollment token for Kibana:"
+sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
+
+# Configure Kibana for network access
+sudo sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' /etc/kibana/kibana.yml
