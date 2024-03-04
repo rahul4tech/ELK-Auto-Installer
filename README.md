@@ -18,14 +18,21 @@ This script automates the installation and configuration of Elasticsearch and Ki
 2. Change into the directory:
 
     ```bash
-    ELK-Auto-Installer
+    cd ELK-Auto-Installer
     ```
 
 3. Run the script:
 
     ```bash
-    ELK-Auto-Installer.sh
+    chmod +x ELK-Auto-Installer.sh
     ```
+4. Run the script:
+
+    ```bash
+    ./ELK-Auto-Installer.sh
+    ```
+
+    ```bash
 
     If you prefer not to clone the repository, you can also run the script directly from wget or curl:
 
