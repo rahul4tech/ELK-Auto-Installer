@@ -3,10 +3,10 @@
 # Function to check the OS and determine package manager
 #!/bin/bash
 
-# Define color codes
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m' # No Color
+# Define color codes using tput
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+NC=$(tput sgr0) # No Color
 
 # Function to check the OS and determine package manager
 check_os() {
