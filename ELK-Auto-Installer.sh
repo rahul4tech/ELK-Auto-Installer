@@ -48,6 +48,12 @@ check_os() {
 
 # Function to install Elasticsearch
 install_elasticsearch() {
+
+    # remove old token and elastic_superuser_password kibana_enrollment_token.txt reset-superuser-password.exp
+    rm -f kibana_enrollment_token.txt
+    rm -f elastic_superuser_password
+    rm -f reset-superuser-password.exp
+
     echo "Installing Elasticsearch..."
     if [ "$PACKAGE_MANAGER" = "apt" ]; then
         wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
@@ -81,6 +87,9 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
     sudo systemctl enable elasticsearch.service
 
     echo "Elasticsearch installed."
+
+    # Generate enrollment token for Kibana
+    /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana > kibana_enrollment_token.txt
 }
 
 # reset superuser password
@@ -199,6 +208,7 @@ delete_user() {
 
 # Main script starts here
 # celar the screen
+cd ~
 clear
 # Welcome message
 echo  "${GREEN}Welcome to the ELK Stack Auto-Installer${NC}"
