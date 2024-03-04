@@ -51,14 +51,14 @@ install_elasticsearch() {
     echo "Installing Elasticsearch..."
     if [ "$PACKAGE_MANAGER" = "apt" ]; then
         wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-        echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+        echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-8.x.list
         sudo apt-get update
         sudo apt-get install elasticsearch -y
     elif [ "$PACKAGE_MANAGER" = "yum" ]; then
         sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-        echo "[elasticsearch-7.x]
-name=Elasticsearch repository for 7.x packages
-baseurl=https://artifacts.elastic.co/packages/7.x/yum
+        echo "[elasticsearch-8.x]
+name=Elasticsearch repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
@@ -212,7 +212,7 @@ case $choice in
         ;;
     2)
         install_elasticsearch
-        setup_elasticsearch_security
+        # setup_elasticsearch_security
         sudo systemctl start elasticsearch.service
         ;;
     3)
