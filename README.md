@@ -32,9 +32,10 @@ This script automates the installation and configuration of Elasticsearch and Ki
     ./ELK-Auto-Installer.sh
     ```
 
-    ```bash
 
-    If you prefer not to clone the repository, you can also run the script directly from wget or curl:
+
+    ##### If you prefer not to clone the repository, you can also run the script directly from wget or curl:
+
 
     ### Using WGET
     ```bash
