@@ -82,9 +82,13 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
     sudo systemctl enable elasticsearch.service
 
     echo "Elasticsearch installed."
+}
 
-    # Generate enrollment token for Kibana
-    /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana > kibana_enrollment_token.txt
+# generate enrollment token for Kibana
+generate_enrollment_token() {
+    echo "Generating an enrollment token for Kibana..."
+    sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana > kibana_enrollment_token.txt
+    echo "Enrollment token saved to kibana_enrollment_token.txt"
 }
 
 # reset superuser password
@@ -242,6 +246,7 @@ case $choice in
         # setup_elasticsearch_security
         sudo systemctl start elasticsearch.service
         reset_super_user_password
+        generate_enrollment_token
         ;;
     3)
         install_kibana
