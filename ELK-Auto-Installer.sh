@@ -85,6 +85,8 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
 
 # reset superuser password
 reset_super_user_password() {
+    # download the expect script
+    curl -O https://raw.githubusercontent.com/rahul4tech/ELK-Auto-Installer/master/reset-superuser-password.exp
     echo "Resetting superuser password..."
     # install expect package
     if [ "$PACKAGE_MANAGER" = "apt" ]; then
