@@ -73,11 +73,21 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
     echo "xpack.security.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
     echo "xpack.security.transport.ssl.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
 
+    # call the function to configure discovery
+    configure_elasticsearch_discovery
+
     # Configure Elasticsearch to start on boot
     sudo systemctl daemon-reload
     sudo systemctl enable elasticsearch.service
 
     echo "Elasticsearch installed."
+}
+
+# Configure Elasticsearch for discovery
+function configure_elasticsearch_discovery() {
+    echo "Configuring Elasticsearch for discovery..."
+    sudo sed -i '/^#discovery.seed_hosts:/a discovery.seed_hosts: ["127.0.0.1"]' /etc/elasticsearch/elasticsearch.yml
+    sudo sed -i '/^#cluster.initial_master_nodes:/a cluster.initial_master_nodes: ["node-1"]' /etc/elasticsearch/elasticsearch.yml
 }
 
 # Function to set up passwords and generate enrollment token for Elasticsearch
@@ -196,6 +206,7 @@ read -p "Enter your choice (1-8): " choice
 case $choice in
     1)
         install_elasticsearch
+        setup_elasticsearch_security
         install_kibana
         start_services
         ;;
