@@ -30,11 +30,11 @@ This script automates the installation and configuration of Elasticsearch and Ki
     If you prefer not to clone the repository, you can also run the script directly from wget or curl:
 
     ```bash
-    wget https://raw.githubusercontent.com/ELK-Auto-Installer/master/ELK-Auto-Installer.sh
+    wget https://raw.githubusercontent.com/rahul4tech/ELK-Auto-Installer/master/ELK-Auto-Installer.sh && chmod +x ELK-Auto-Installer.sh && ./ELK-Auto-Installer.sh
+    
     # OR
-    curl -O https://raw.githubusercontent.com/ELK-Auto-Installer/master/ELK-Auto-Installer.sh
-
-    ELK-Auto-Installer.sh
+    
+    curl -O https://raw.githubusercontent.com/rahul4tech/ELK-Auto-Installer/master/ELK-Auto-Installer.sh && chmod +x ELK-Auto-Installer.sh && ./ELK-Auto-Installer.sh
     ```
 
 4. Follow the on-screen instructions to install, remove, or manage users for Elasticsearch and Kibana.
