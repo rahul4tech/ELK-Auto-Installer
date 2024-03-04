@@ -158,7 +158,7 @@ remove_elasticsearch() {
 
     # remove old token and elastic_superuser_password kibana_enrollment_token.txt reset-superuser-password.exp
     rm -f kibana_enrollment_token.txt
-    rm -f elastic_superuser_password
+    rm -f elastic_superuser_password.txt
     rm -f reset-superuser-password.exp
 
     sudo systemctl stop elasticsearch.service
