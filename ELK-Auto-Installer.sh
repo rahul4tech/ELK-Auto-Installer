@@ -67,20 +67,34 @@ type=rpm-md" | sudo tee /etc/yum.repos.d/elasticsearch.repo
         sudo yum install elasticsearch -y
     fi
 
-    # Configure Elasticsearch for network access and security
-    sudo sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
-    sudo sed -i 's/#http.port: 9200/http.port: 9200/' /etc/elasticsearch/elasticsearch.yml
-    echo "xpack.security.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
-    echo "xpack.security.transport.ssl.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
+    # # Configure Elasticsearch for network access and security
+    # sudo sed -i 's/#network.host: 192.168.0.1/network.host: 0.0.0.0/' /etc/elasticsearch/elasticsearch.yml
+    # sudo sed -i 's/#http.port: 9200/http.port: 9200/' /etc/elasticsearch/elasticsearch.yml
+    # echo "xpack.security.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
+    # echo "xpack.security.transport.ssl.enabled: true" | sudo tee -a /etc/elasticsearch/elasticsearch.yml
 
-    # call the function to configure discovery
-    configure_elasticsearch_discovery
+    # # call the function to configure discovery
+    # configure_elasticsearch_discovery
 
     # Configure Elasticsearch to start on boot
     sudo systemctl daemon-reload
     sudo systemctl enable elasticsearch.service
 
     echo "Elasticsearch installed."
+}
+
+# reset superuser password
+reset_super_user_password() {
+    echo "Resetting superuser password..."
+    # install expect package
+    if [ "$PACKAGE_MANAGER" = "apt" ]; then
+        sudo apt-get install expect -y
+    elif [ "$PACKAGE_MANAGER" = "yum" ]; then
+        sudo yum install expect -y
+    fi
+    # call reset-superuser-password.exp expect script
+    chmod +x reset-superuser-password.exp
+    ./reset-superuser-password.exp
 }
 
 # Configure Elasticsearch for discovery
