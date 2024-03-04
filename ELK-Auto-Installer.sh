@@ -220,7 +220,7 @@ read -p "Enter your choice (1-8): " choice
 case $choice in
     1)
         install_elasticsearch
-        setup_elasticsearch_security
+        # setup_elasticsearch_security
         install_kibana
         start_services
         ;;
@@ -228,6 +228,7 @@ case $choice in
         install_elasticsearch
         # setup_elasticsearch_security
         sudo systemctl start elasticsearch.service
+        reset_super_user_password
         ;;
     3)
         install_kibana
